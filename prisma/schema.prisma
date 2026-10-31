@@ -1,0 +1,245 @@
+// EasyWay Tourism Platform - Prisma Schema
+// Defaults to SQLite for self-contained, zero-dependency local development and container execution.
+// To switch to PostgreSQL for production deployment, change provider to "postgresql" or use prisma/schema.postgres.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String            @id @default(cuid())
+  name         String
+  email        String            @unique
+  passwordHash String
+  role         String            @default("USER") // USER | GUIDE | ADMIN
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  preferences  TravelPreference?
+  reviews      Review[]
+  favorites    Favorite[]
+  trips        Trip[]
+  inquiries    Inquiry[]
+  guideProfile Guide?
+
+  @@index([email])
+  @@index([role])
+}
+
+model TravelPreference {
+  id                       String   @id @default(cuid())
+  userId                   String   @unique
+  user                     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  preferredCategories      String   // Comma-separated or JSON string: Heritage, Culture, Nature, etc.
+  preferredRegions         String   // North, South, East, West, North-East, Central
+  budgetRange              String   // Budget, Moderate, Luxury
+  travelGroupType          String   // Solo, Couple, Family, Friends
+  preferredActivities      String   // Sightseeing, Adventure, Food Tasting, Spiritual
+  accommodationPreferences String   // Heritage Haveli, Luxury Resort, Eco Stay, Boutique Hotel
+  preferredDuration        String   // Weekend, 4-7 Days, 1-2 Weeks
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+}
+
+model Destination {
+  id              String       @id @default(cuid())
+  name            String
+  slug            String       @unique
+  state           String
+  region          String       // North, South, East, West, North-East, Central
+  description     String
+  imageUrl        String
+  categories      String       // Heritage, Culture, Nature, Beaches, Spiritual, Wildlife
+  latitude        Float
+  longitude       Float
+  bestTimeToVisit String?
+  popularityScore Float?       @default(4.5)
+  isPublished     Boolean      @default(true)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  attractions     Attraction[]
+  hotels          Hotel[]
+  reviews         Review[]
+  favorites       Favorite[]
+  tripItems       TripItem[]
+
+  @@index([slug])
+  @@index([region])
+  @@index([state])
+}
+
+model Attraction {
+  id                     String      @id @default(cuid())
+  name                   String
+  slug                   String      @unique
+  destinationId          String
+  destination            Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  description            String
+  category               String      // Monument, Fort, Temple, Lake, Nature, Beach
+  imageUrl               String
+  address                String?
+  latitude               Float
+  longitude              Float
+  estimatedVisitDuration String?     // e.g. "2-3 hours"
+  isPublished            Boolean     @default(true)
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  reviews                Review[]
+  favorites              Favorite[]
+  tripItems              TripItem[]
+
+  @@index([slug])
+  @@index([destinationId])
+  @@index([category])
+}
+
+model Hotel {
+  id                 String      @id @default(cuid())
+  name               String
+  slug               String      @unique
+  destinationId      String
+  destination        Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  description        String
+  accommodationType  String      // Luxury Palace, Heritage Haveli, Boutique Resort, Lake View Villa, Eco Lodge
+  imageUrl           String
+  address            String
+  amenities          String      // Comma-separated: WiFi, Pool, Spa, Ayurvedic Center, Restaurant, Airport Shuttle
+  latitude           Float
+  longitude          Float
+  contactInformation String?
+  isPublished        Boolean     @default(true)
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+
+  reviews            Review[]
+  favorites          Favorite[]
+
+  @@index([slug])
+  @@index([destinationId])
+  @@index([accommodationType])
+}
+
+model Guide {
+  id              String    @id @default(cuid())
+  userId          String?   @unique
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  name            String
+  biography       String
+  languages       String    // English, Hindi, French, Spanish, German, Japanese
+  specializations String    // Heritage Architecture, Wildlife Safari, Culinary Trails, Spiritual Pilgrimage
+  serviceRegions  String    // Rajasthan, Kerala, Golden Triangle, Himachal
+  profileImageUrl String
+  experienceYears Int?      @default(5)
+  isPublished     Boolean   @default(true)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  reviews         Review[]
+  favorites       Favorite[]
+
+  @@index([serviceRegions])
+}
+
+model Review {
+  id               String       @id @default(cuid())
+  userId           String
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destinationId    String?
+  destination      Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  attractionId     String?
+  attraction       Attraction?  @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+  hotelId          String?
+  hotel            Hotel?       @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  guideId          String?
+  guide            Guide?       @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  rating           Int          // 1 to 5
+  comment          String
+  moderationStatus String       @default("APPROVED") // PENDING, APPROVED, REJECTED
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([userId])
+  @@index([destinationId])
+  @@index([attractionId])
+  @@index([hotelId])
+  @@index([guideId])
+}
+
+model Favorite {
+  id            String       @id @default(cuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destinationId String?
+  destination   Destination? @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+  attractionId  String?
+  attraction    Attraction?  @relation(fields: [attractionId], references: [id], onDelete: Cascade)
+  hotelId       String?
+  hotel         Hotel?       @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  guideId       String?
+  guide         Guide?       @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+
+  @@index([userId])
+  @@index([destinationId])
+  @@index([attractionId])
+  @@index([hotelId])
+  @@index([guideId])
+}
+
+model Trip {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  startDate   String?
+  endDate     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  items       TripItem[]
+
+  @@index([userId])
+}
+
+model TripItem {
+  id            String       @id @default(cuid())
+  tripId        String
+  trip          Trip         @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  destinationId String?
+  destination   Destination? @relation(fields: [destinationId], references: [id], onDelete: SetNull)
+  attractionId  String?
+  attraction    Attraction?  @relation(fields: [attractionId], references: [id], onDelete: SetNull)
+  dayNumber     Int          @default(1)
+  sortOrder     Int          @default(0)
+  notes         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([tripId])
+}
+
+model Inquiry {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  recipientType String   // HOTEL, GUIDE, GENERAL
+  recipientId   String?  // Hotel ID or Guide ID
+  name          String
+  email         String
+  message       String
+  travelDate    String?
+  status        String   @default("PENDING") // PENDING, CONTACTED, RESOLVED, ARCHIVED
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([recipientType])
+  @@index([status])
+}

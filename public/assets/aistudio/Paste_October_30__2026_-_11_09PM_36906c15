@@ -1,0 +1,1486 @@
+# PROJECT: EasyWay — India Tourist Travel & Discovery Platform
+
+## 1. ROLE AND OBJECTIVE
+
+Act as a senior full-stack software engineer, UI/UX designer, software architect, database designer, and security engineer.
+
+Build a complete, professional, modern, responsive, and fully functional full-stack tourism website named **EasyWay — Discover India Your Way**.
+
+EasyWay is an India-focused travel and tourism platform that helps domestic and international travelers discover destinations, explore tourist attractions, find hotels and local guides, plan trips, view destinations on interactive maps, save favorites, share reviews, and receive personalized travel recommendations.
+
+Do not build just a static landing page or UI prototype. Build a complete application with a functional frontend, backend APIs, persistent database, authentication, authorization, admin dashboard, validation, error handling, and realistic seed data.
+
+Every important button, form, filter, navigation item, and interactive component must work correctly.
+
+Use clean, reusable, maintainable, production-oriented code.
+
+---
+
+## 2. PROJECT INFORMATION
+
+**Project name:** EasyWay
+
+**Tagline:** Discover India Your Way
+
+**Project type:** Full-stack India tourism discovery and trip-planning web application.
+
+**Target users:**
+- Indian domestic travelers
+- International tourists visiting India
+- Families and groups
+- Solo travelers
+- Travelers looking for hotels and local guides
+- Tourism administrators managing website content
+
+**Primary objective:**
+
+Provide one convenient platform where users can discover Indian destinations, explore attractions, find accommodation and guides, plan itineraries, personalize travel preferences, and organize their travel information.
+
+**Design direction:**
+
+Create an elegant, warm, premium, trustworthy, visually attractive travel experience. The design should feel professional and inviting, with beautiful Indian destination photography, spacious layouts, clear typography, smooth interactions, and intuitive navigation.
+
+---
+
+## 3. REQUIRED TECHNOLOGY STACK
+
+Use the following technologies.
+
+### Frontend
+- React 19
+- TypeScript
+- Vite
+- React Router for routing
+- Tailwind CSS v4
+- Lucide React for icons
+- Motion for animations where appropriate
+- React Hook Form for form handling
+- Zod for client-side validation
+- TanStack Query for API requests, caching, and server-state management
+- Leaflet and React Leaflet for interactive maps
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- RESTful API architecture
+- Zod for request validation
+- JWT-based authentication
+- bcryptjs for password hashing
+- Role-based authorization middleware
+- Swagger/OpenAPI for API documentation
+
+### Database
+- PostgreSQL
+- Prisma ORM
+- Database migrations
+- Seed scripts
+- Proper foreign-key relationships
+- Appropriate indexes and constraints
+
+### Testing
+- Vitest for frontend and backend unit tests where appropriate
+- React Testing Library for frontend components
+- Supertest for backend API integration tests
+
+### Development tools
+- ESLint
+- Prettier
+- npm scripts
+- Environment variables using `.env`
+- Git-friendly project structure
+
+Use compatible package versions and verify that all dependencies work together.
+
+---
+
+## 4. WEBSITE COLOR PALETTE
+
+Use this exact color palette consistently throughout the website.
+
+### Primary colors
+
+**Beige — #DDD0C8**
+- Secondary section backgrounds
+- Destination and hotel card accents
+- Filters and selected states
+- Subtle borders and decorative elements
+- Warm visual highlights
+
+**Dark Grey — #323232**
+- Primary text and headings
+- Navigation text
+- Primary buttons
+- Footer background
+- Important icons and interface elements
+
+**White — #FFFFFF**
+- Main page backgrounds
+- Cards and forms
+- Navigation backgrounds where appropriate
+- Modal and dropdown surfaces
+- Text on dark-grey buttons and footer sections
+
+### Design rules
+
+1. Use dark-grey text on beige and white surfaces.
+2. Use white text on dark-grey buttons and dark backgrounds.
+3. Use beige as a supporting background color rather than placing it behind every component.
+4. Maintain sufficient color contrast and accessible focus indicators.
+5. Keep shadows subtle and borders understated.
+6. Use consistent corner radii, spacing, typography, and button sizes.
+7. Avoid introducing unrelated bright colors throughout the interface.
+8. For map markers, status labels, warnings, and error states, use accessible semantic colors only where necessary.
+9. Do not mix in the previous dark-pink branding palette.
+10. Keep the overall design elegant, readable, and visually consistent.
+
+### CSS design tokens
+
+Create reusable design tokens using CSS variables.
+
+```css
+:root {
+  --color-beige: #DDD0C8;
+  --color-dark-grey: #323232;
+  --color-white: #FFFFFF;
+
+  --background-primary: #FFFFFF;
+  --background-secondary: #DDD0C8;
+  --background-dark: #323232;
+
+  --text-primary: #323232;
+  --text-secondary: #555555;
+  --text-inverse: #FFFFFF;
+
+  --button-primary: #323232;
+  --button-primary-text: #FFFFFF;
+
+  --border-default: #D5CBC5;
+  --surface-card: #FFFFFF;
+
+  --radius-card: 16px;
+  --radius-button: 10px;
+}
+```
+
+Use these tokens throughout the application instead of hardcoding colors in individual components.
+
+---
+
+## 5. BRANDING AND VISUAL IDENTITY
+
+Create a consistent EasyWay brand identity.
+
+### Logo
+- Use the brand name EasyWay.
+- Keep the logo simple, memorable, and suitable for a tourism platform.
+- A subtle location pin, compass, route, or travel-inspired symbol may be incorporated.
+- Use beige, dark grey, and white.
+- Make the logo suitable for the navbar, footer, favicon, and mobile layout.
+
+### Typography
+- Choose a clean, modern, highly readable font.
+- Use strong heading hierarchy.
+- Use large, expressive hero headings.
+- Keep body text comfortable to read.
+- Use consistent typography across all pages.
+
+### Imagery
+Use high-quality photography representing Indian tourism, including:
+- Taj Mahal, Agra
+- Jaipur and Rajasthan forts
+- Kerala backwaters
+- Himalayan landscapes
+- Goa beaches
+- Varanasi ghats
+- Hampi heritage sites
+- Udaipur lakes and palaces
+- Darjeeling tea gardens
+- Meghalaya waterfalls
+
+Use image sources that are suitable for website use. Do not rely on broken image links or nonexistent local files.
+
+Use image fallbacks and meaningful alternative text.
+
+---
+
+## 6. APPLICATION ARCHITECTURE
+
+Build the frontend and backend as separate, logically organized applications.
+
+Suggested folder structure:
+
+```text
+easyway/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   ├── layout/
+│   │   │   ├── navigation/
+│   │   │   ├── destinations/
+│   │   │   ├── hotels/
+│   │   │   ├── guides/
+│   │   │   ├── maps/
+│   │   │   ├── reviews/
+│   │   │   └── forms/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── api/
+│   │   ├── context/
+│   │   ├── types/
+│   │   ├── utils/
+│   │   ├── validation/
+│   │   ├── styles/
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── server/
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   ├── migrations/
+│   │   └── seed.ts
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   ├── validators/
+│   │   ├── utils/
+│   │   ├── types/
+│   │   ├── app.ts
+│   │   └── server.ts
+│   ├── tests/
+│   └── package.json
+│
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+└── package-lock.json
+```
+
+You may adjust the structure when technically justified, but preserve clear separation between frontend, backend, database, business logic, validation, and reusable components.
+
+---
+
+## 7. MAIN WEBSITE PAGES
+
+Create all the following pages with responsive layouts and functional interactions.
+
+### A. Home Page
+
+Build an attractive tourism landing page.
+
+#### Navbar
+Include:
+- EasyWay logo
+- Home
+- Destinations
+- Attractions
+- Hotels
+- Travel Guides
+- Explore Map
+- Trip Planner
+- Favorites
+- Login or Sign Up
+- User profile menu when authenticated
+
+Requirements:
+- Sticky navigation on desktop
+- Responsive mobile navigation
+- Active route indicators
+- Accessible dropdown menus
+- Clear primary call-to-action
+
+#### Hero section
+
+Create a visually engaging hero section with Indian destination photography.
+
+Headline:
+
+**Discover India Your Way**
+
+Supporting text:
+
+Explore incredible destinations, discover local experiences, find trusted travel guides, and plan your next Indian adventure with EasyWay.
+
+Include:
+- Destination search input
+- Search button
+- Explore India button
+- Find Hotels button
+- Find Guides button
+
+The search should support destination names, states, cities, and relevant attractions.
+
+#### Popular destinations
+
+Display destination cards with:
+- Destination image
+- Destination name
+- State or region
+- Short description
+- Category
+- Rating when available
+- View Details button
+- Favorite toggle
+
+Include a View All Destinations link.
+
+#### Popular attractions
+
+Display cards featuring:
+- Attraction image
+- Attraction name
+- Associated destination
+- Attraction category
+- Short description
+- View Details action
+
+#### Recommended hotels
+
+Display hotel cards with:
+- Hotel name
+- Hotel image
+- Location
+- Hotel category
+- Available facilities
+- Price range if provided
+- Rating when available
+- View Details button
+- Send Inquiry button
+
+Do not invent live hotel prices or availability.
+
+#### Featured travel guides
+
+Display:
+- Guide profile photo or avatar
+- Name
+- Languages spoken
+- Specializations
+- Service regions
+- Rating when available
+- View Profile button
+- Send Inquiry button
+
+#### Interactive map preview
+
+Display an embedded interactive map with destination markers.
+
+Include a button to open the full Explore Map page.
+
+#### Personalized recommendations
+
+When a user has saved travel preferences, show recommendations based on those preferences.
+
+For anonymous users, show popular destinations instead.
+
+#### Travel inspiration
+
+Include a section highlighting:
+- Cultural experiences
+- Nature and adventure
+- Heritage tourism
+- Beaches and relaxation
+- Spiritual destinations
+- Family-friendly travel
+
+#### Footer
+
+Include:
+- EasyWay logo and description
+- Quick links
+- Destinations
+- Contact information placeholders
+- Privacy Policy
+- Terms of Service
+- Copyright notice
+
+Do not invent real contact details.
+
+---
+
+### B. Destinations Page
+
+Route: `/destinations`
+
+Features:
+- Grid and optional list layouts
+- Search by destination name
+- Filter by state or region
+- Filter by travel category
+- Filter by budget suitability where data supports it
+- Filter by traveler preferences
+- Sort by name or popularity
+- Pagination or Load More
+- Clear Filters button
+- Favorite destination action
+- Responsive destination cards
+
+Each destination should have a unique detail page.
+
+Route: `/destinations/:slug`
+
+Destination detail page should include:
+- Destination name
+- Hero image
+- Description
+- State and region
+- Best time to visit, if provided
+- Estimated visit duration, if provided
+- Popular attractions
+- Related hotels
+- Related guides
+- Interactive location map
+- Reviews and ratings
+- Save to Favorites button
+- Add to Trip button
+- Related destinations
+
+---
+
+### C. Attractions Page
+
+Route: `/attractions`
+
+Features:
+- Search attractions
+- Filter by category
+- Filter by destination
+- Sort and paginate results
+- Display attraction images and descriptions
+
+Route: `/attractions/:slug`
+
+Display:
+- Attraction details
+- Destination information
+- Address or coordinates when available
+- Historical or cultural information
+- Suggested visit duration where available
+- Map location
+- Related attractions
+- Add to Trip action
+
+---
+
+### D. Hotels Page
+
+Route: `/hotels`
+
+Features:
+- Search hotels by city, destination, or hotel name
+- Filter by destination
+- Filter by accommodation type
+- Filter by amenities
+- Filter by rating when ratings exist
+- Sort by name or rating
+- Display hotel cards
+- Send inquiry button
+
+Route: `/hotels/:slug`
+
+Display:
+- Hotel name and images
+- Description
+- Location
+- Amenities
+- Accommodation category
+- Contact or inquiry form where supported
+- Reviews and ratings
+- Map location
+- Related destinations
+
+**Important scope limitation:** The platform is for hotel discovery and inquiries. Do not claim to provide confirmed hotel reservations, real-time availability, payment processing, or live booking prices unless these integrations are explicitly implemented.
+
+---
+
+### E. Travel Guides Page
+
+Route: `/guides`
+
+Features:
+- Search by guide name
+- Filter by location
+- Filter by languages spoken
+- Filter by specialization
+- Sort by rating when available
+- Guide profile cards
+- Send Inquiry button
+
+Route: `/guides/:id`
+
+Display:
+- Guide profile
+- Biography
+- Languages
+- Service regions
+- Specializations
+- Experience, if provided
+- Reviews and ratings
+- Contact inquiry form
+- Related destinations
+
+Do not display fake certifications or claim background verification unless actually implemented.
+
+---
+
+### F. Explore Map Page
+
+Route: `/map`
+
+Use Leaflet with OpenStreetMap tiles.
+
+Features:
+- Interactive zoom and pan
+- Destination markers
+- Attraction markers
+- Hotel markers
+- Guide-related locations where appropriate
+- Different marker styles for each category
+- Marker popups
+- Destination search
+- Category filters
+- Current-location button
+- Open details from marker popups
+- Map and result-list layout
+- Responsive mobile design
+
+Handle location permissions gracefully.
+
+If the user denies location permission, the map must still work.
+
+Do not expose the user's precise location to other users or persist it unnecessarily.
+
+Use OpenStreetMap attribution and comply with the chosen map tile provider's usage policies.
+
+---
+
+### G. Travel Preferences Page
+
+Route: `/preferences`
+
+Allow authenticated users to save their travel preferences.
+
+Include:
+- Preferred destination types
+- Budget range
+- Preferred activities
+- Preferred travel regions
+- Travel group type
+- Accommodation preferences
+- Preferred trip duration
+- Adventure level, where relevant
+
+Example travel categories:
+- Heritage
+- Culture
+- Nature
+- Adventure
+- Beaches
+- Spiritual tourism
+- Wildlife
+- Food and local experiences
+- Family travel
+
+Store preferences in PostgreSQL.
+
+Create a recommendation service that compares saved preferences with destination and attraction attributes.
+
+Show a clear explanation of why an item is recommended.
+
+For example:
+
+"Recommended because you enjoy heritage destinations and cultural experiences."
+
+Use transparent rule-based personalization rather than pretending to use machine learning.
+
+---
+
+### H. Favorites Page
+
+Route: `/favorites`
+
+Features:
+- Display saved destinations, hotels, guides, or attractions
+- Remove favorites
+- Open detail pages
+- Add eligible items to a trip
+- Empty state with a link to explore destinations
+
+Favorites must persist across sessions for authenticated users.
+
+Enforce server-side authorization so users can only access their own favorites.
+
+---
+
+### I. Trip Planner Page
+
+Route: `/trips`
+
+Allow authenticated users to create and manage trips.
+
+Features:
+- Create trip
+- Edit trip name
+- Set destination
+- Set planned dates
+- Add destinations and attractions to an itinerary
+- Organize itinerary by day
+- Reorder itinerary items
+- Remove itinerary items
+- Add notes
+- View trip summary
+- Delete trip with confirmation
+
+Route: `/trips/:id`
+
+Display:
+- Trip information
+- Planned travel dates
+- Day-by-day itinerary
+- Associated destination and attraction details
+- Notes
+- Interactive map of itinerary locations
+- Edit and delete actions
+
+Persist trips and itinerary items in PostgreSQL.
+
+Users must only access trips they own unless an explicit sharing feature is implemented.
+
+Do not implement a fake drag-and-drop interaction. If drag-and-drop is included, it must update the saved itinerary order.
+
+---
+
+### J. Search
+
+Implement a reusable global search component.
+
+Requirements:
+- Search destinations, attractions, hotels, and guides
+- Debounce input to avoid unnecessary requests
+- Show grouped results
+- Support keyboard navigation
+- Provide an accessible empty state
+- Provide loading and error states
+- Navigate to the relevant detail page
+- Include a Ctrl+K keyboard shortcut on supported desktop browsers
+
+Use the backend API for persistent data search.
+
+---
+
+### K. Authentication Pages
+
+Routes:
+- `/login`
+- `/register`
+- `/forgot-password` if recovery is implemented
+
+Registration fields:
+- Full name
+- Email
+- Password
+- Confirm password
+
+Login fields:
+- Email
+- Password
+
+Requirements:
+- Client-side and server-side validation
+- Password hashing using bcryptjs
+- Safe authentication flow
+- Appropriate session handling
+- Logout
+- Protected pages
+- Role-based authorization
+- Useful error messages
+- Loading indicators
+- Prevent duplicate email registrations
+
+Never store plaintext passwords.
+
+Never put JWT secrets or database credentials in frontend code.
+
+Prefer secure, HttpOnly, SameSite cookies for authentication where appropriate, with CSRF protection for cookie-authenticated state-changing requests. If using bearer tokens instead, do not store long-lived tokens in localStorage; document the chosen token lifecycle and storage strategy.
+
+Implement password reset only if a real, secure reset mechanism is configured. Otherwise, clearly indicate that it is not yet available.
+
+---
+
+### L. Admin Dashboard
+
+Route: `/admin`
+
+Only users with the ADMIN role may access this section.
+
+Dashboard overview:
+- Total users
+- Total destinations
+- Total attractions
+- Total hotels
+- Total guides
+- Total reviews
+- Recent activity where supported
+
+Admin management pages:
+- Manage destinations
+- Manage attractions
+- Manage hotels
+- Manage guides
+- Manage users
+- Manage reviews
+- View inquiry records
+
+Admin functionality:
+- Create content
+- Edit content
+- Delete content with confirmation
+- Publish or unpublish content where supported
+- Moderate reviews
+- View and manage users
+- Validate all submitted information
+- Display useful success and error notifications
+
+All admin permissions must be enforced by the backend, not just by hiding frontend elements.
+
+Prevent an administrator from accidentally deleting critical data without confirmation.
+
+Do not seed production with hardcoded default administrator credentials.
+
+---
+
+## 8. DATABASE DESIGN
+
+Use PostgreSQL with Prisma ORM.
+
+Create normalized models and define appropriate relations, indexes, unique constraints, and deletion behavior.
+
+Implement at least the following models.
+
+### User
+Fields:
+- id
+- name
+- email
+- passwordHash
+- role: USER, GUIDE, or ADMIN
+- createdAt
+- updatedAt
+
+Email must be unique.
+
+### TravelPreference
+Fields:
+- id
+- userId
+- preferredCategories
+- preferredRegions
+- budgetRange
+- travelGroupType
+- preferredActivities
+- accommodationPreferences
+- preferredDuration
+- createdAt
+- updatedAt
+
+Associate preferences with the user.
+
+### Destination
+Fields:
+- id
+- name
+- slug
+- state
+- region
+- description
+- imageUrl
+- categories
+- latitude
+- longitude
+- bestTimeToVisit, if available
+- popularityScore, if available
+- isPublished
+- createdAt
+- updatedAt
+
+Use a unique slug.
+
+### Attraction
+Fields:
+- id
+- name
+- slug
+- destinationId
+- description
+- category
+- imageUrl
+- address
+- latitude
+- longitude
+- estimatedVisitDuration, if available
+- isPublished
+- createdAt
+- updatedAt
+
+### Hotel
+Fields:
+- id
+- name
+- slug
+- destinationId
+- description
+- accommodationType
+- imageUrl
+- address
+- amenities
+- latitude
+- longitude
+- contactInformation, if available
+- isPublished
+- createdAt
+- updatedAt
+
+Do not invent real-time availability or live pricing fields unless a valid data source is implemented.
+
+### Guide
+Fields:
+- id
+- userId, where linked to an account
+- name
+- biography
+- languages
+- specializations
+- serviceRegions
+- profileImageUrl
+- experienceYears, if available
+- isPublished
+- createdAt
+- updatedAt
+
+Keep profile and user-account relationships consistent.
+
+### Review
+Fields:
+- id
+- userId
+- destinationId, nullable
+- attractionId, nullable
+- hotelId, nullable
+- guideId, nullable
+- rating
+- comment
+- moderationStatus
+- createdAt
+- updatedAt
+
+Validate ratings, and require a review to target an allowed entity.
+
+### Favorite
+Fields:
+- id
+- userId
+- destinationId, nullable
+- attractionId, nullable
+- hotelId, nullable
+- guideId, nullable
+- createdAt
+
+Enforce valid target relationships and prevent duplicate favorites for the same user and target.
+
+### Trip
+Fields:
+- id
+- userId
+- name
+- description
+- startDate
+- endDate
+- createdAt
+- updatedAt
+
+### TripItem
+Fields:
+- id
+- tripId
+- destinationId, nullable
+- attractionId, nullable
+- dayNumber
+- sortOrder
+- notes
+- createdAt
+- updatedAt
+
+Validate the selected target, itinerary order, and trip ownership.
+
+### Inquiry
+Fields:
+- id
+- userId, nullable for guest inquiries
+- recipientType
+- recipientId
+- name
+- email
+- message
+- travelDate, optional
+- status
+- createdAt
+- updatedAt
+
+Inquiries should be stored persistently and available to authorized administrators.
+
+Use Prisma migrations to create and update the database schema.
+
+---
+
+## 9. BACKEND REST API
+
+Use the base path `/api`.
+
+Implement consistent response structures, validation, authorization, and error handling.
+
+### Authentication
+
+```text
+POST   /api/auth/register
+POST   /api/auth/login
+POST   /api/auth/logout
+GET    /api/auth/me
+```
+
+Implement password recovery endpoints only if the recovery mechanism is fully configured.
+
+### Destinations
+
+```text
+GET    /api/destinations
+GET    /api/destinations/:slug
+POST   /api/destinations
+PATCH  /api/destinations/:id
+DELETE /api/destinations/:id
+```
+
+Write operations require administrator authorization.
+
+### Attractions
+
+```text
+GET    /api/attractions
+GET    /api/attractions/:slug
+POST   /api/attractions
+PATCH  /api/attractions/:id
+DELETE /api/attractions/:id
+```
+
+### Hotels
+
+```text
+GET    /api/hotels
+GET    /api/hotels/:slug
+POST   /api/hotels
+PATCH  /api/hotels/:id
+DELETE /api/hotels/:id
+```
+
+### Guides
+
+```text
+GET    /api/guides
+GET    /api/guides/:id
+POST   /api/guides
+PATCH  /api/guides/:id
+DELETE /api/guides/:id
+```
+
+### Preferences
+
+```text
+GET    /api/preferences
+PUT    /api/preferences
+```
+
+### Favorites
+
+```text
+GET    /api/favorites
+POST   /api/favorites
+DELETE /api/favorites/:id
+```
+
+### Trips
+
+```text
+GET    /api/trips
+POST   /api/trips
+GET    /api/trips/:id
+PATCH  /api/trips/:id
+DELETE /api/trips/:id
+
+POST   /api/trips/:id/items
+PATCH  /api/trips/:id/items/:itemId
+DELETE /api/trips/:id/items/:itemId
+```
+
+### Reviews
+
+```text
+GET    /api/reviews
+POST   /api/reviews
+PATCH  /api/reviews/:id
+DELETE /api/reviews/:id
+```
+
+Users may manage their own reviews. Administrators may moderate reviews according to the authorization rules.
+
+### Inquiries
+
+```text
+POST   /api/inquiries
+GET    /api/inquiries
+GET    /api/inquiries/:id
+PATCH  /api/inquiries/:id
+```
+
+Protect inquiry-management endpoints appropriately.
+
+### Search and recommendations
+
+```text
+GET    /api/search?q=
+GET    /api/recommendations
+```
+
+### Administration
+
+```text
+GET    /api/admin/dashboard
+GET    /api/admin/users
+PATCH  /api/admin/users/:id
+GET    /api/admin/inquiries
+```
+
+Implement additional endpoints as required by the actual frontend.
+
+All list endpoints should support relevant filters, pagination, sorting, and validated query parameters.
+
+Use consistent HTTP status codes and JSON response formats.
+
+Document all endpoints in Swagger/OpenAPI and expose the documentation at:
+
+`/api/docs`
+
+---
+
+## 10. SECURITY REQUIREMENTS
+
+Implement security as a core part of the project.
+
+Required safeguards:
+- Hash passwords using bcryptjs.
+- Validate and sanitize incoming data.
+- Use secure environment variables.
+- Enforce role-based access control.
+- Enforce resource ownership for trips, preferences, favorites, and reviews.
+- Prevent unauthorized access to admin endpoints.
+- Use secure authentication cookie settings if cookies are used.
+- Configure CORS for explicitly allowed origins.
+- Add appropriate Helmet security headers.
+- Apply rate limiting to login, registration, search, and other abuse-prone endpoints as appropriate.
+- Prevent mass assignment by explicitly validating accepted fields.
+- Avoid exposing stack traces or internal errors to users.
+- Use parameterized database operations through Prisma.
+- Avoid logging passwords, tokens, or sensitive personal information.
+- Configure appropriate request-body size limits.
+- Protect cookie-authenticated state-changing requests against CSRF.
+- Do not trust client-provided roles or user IDs.
+- Use transactions where multiple database writes must succeed or fail together.
+
+Return safe, consistent errors without exposing secrets or database internals.
+
+---
+
+## 11. DATA AND SEEDING
+
+Provide realistic sample data for demonstration and development.
+
+Seed at least:
+- 16 Indian destinations
+- 22 tourist attractions
+- 14 hotels
+- 8 travel guides
+- Representative reviews
+- Sample categories and amenities
+- Example travel preferences
+- Example trips
+- Sample inquiries
+
+Use Indian tourism locations such as:
+- Agra
+- Jaipur
+- Udaipur
+- Varanasi
+- Kerala
+- Goa
+- Delhi
+- Mumbai
+- Darjeeling
+- Shimla
+- Manali
+- Hampi
+- Mysuru
+- Rishikesh
+- Shillong
+- Andaman and Nicobar Islands
+
+Ensure all seeded relationships are valid.
+
+Use realistic descriptions, appropriate coordinates, and suitable image URLs.
+
+Do not fabricate verified business details, genuine customer testimonials, or real guide credentials. Clearly treat demonstration reviews and profiles as sample data.
+
+The application must continue to work when there are no database records.
+
+Do not make the website depend on manually maintained in-memory arrays as its main data source.
+
+---
+
+## 12. UI/UX AND RESPONSIVENESS
+
+Build a polished, professional interface with consistent components.
+
+Create reusable components for:
+- Navbar
+- Footer
+- Buttons
+- Inputs
+- Selects
+- Cards
+- Destination cards
+- Hotel cards
+- Guide cards
+- Search bars
+- Filters
+- Modals
+- Confirmation dialogs
+- Toast notifications
+- Loading skeletons
+- Empty states
+- Error states
+- Pagination
+- Breadcrumbs
+- Map markers
+- Form validation messages
+
+### Responsive behavior
+
+Support:
+- Desktop screens
+- Laptops
+- Tablets
+- Mobile phones
+
+Requirements:
+- No horizontal overflow
+- Responsive card grids
+- Mobile-friendly navigation
+- Touch-friendly buttons
+- Appropriate image cropping
+- Readable typography
+- Adaptable maps and forms
+- Responsive admin tables
+
+### Accessibility
+
+Implement:
+- Semantic HTML
+- Keyboard navigation
+- Visible focus indicators
+- Accessible labels
+- Appropriate ARIA attributes
+- Meaningful image alt text
+- Sufficient color contrast
+- Accessible modal behavior
+- Reduced-motion support
+
+### Interaction feedback
+
+Every major interaction must include appropriate:
+- Loading states
+- Success feedback
+- Validation feedback
+- Error messages
+- Empty states
+- Disabled states when an action cannot be performed
+
+Do not leave buttons that do nothing.
+
+Avoid excessive animations, unnecessary gradients, and distracting effects.
+
+---
+
+## 13. PERFORMANCE AND SEARCH ENGINE OPTIMIZATION
+
+Implement sensible performance optimizations.
+
+Requirements:
+- Lazy-load appropriate images
+- Use responsive image sizes where possible
+- Avoid unnecessary component re-renders
+- Paginate large result sets
+- Add database indexes for commonly queried fields
+- Use efficient Prisma queries
+- Cache appropriate API responses without exposing private user data
+- Avoid loading all map markers or records unnecessarily
+- Configure frontend document titles and meta descriptions
+- Use meaningful URL slugs for public destination pages
+- Provide loading skeletons for slow requests
+- Use proper error boundaries where appropriate
+
+Do not sacrifice accessibility or correctness for animation or visual effects.
+
+---
+
+## 14. ENVIRONMENT CONFIGURATION
+
+Create a `.env.example` file containing placeholders for all required environment variables.
+
+Example:
+
+```env
+NODE_ENV=development
+PORT=5000
+
+DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/easyway
+
+JWT_SECRET=replace_with_a_secure_random_secret
+JWT_EXPIRES_IN=15m
+
+CLIENT_URL=http://localhost:5173
+
+# Add optional integration credentials only when the integration is implemented.
+```
+
+Never commit real credentials.
+
+Validate required environment variables at application startup.
+
+Generate production secrets securely rather than using the example values.
+
+Document any additional environment variables required by the selected implementation.
+
+---
+
+## 15. DEVELOPMENT AND DEPLOYMENT
+
+Configure the application so it can run locally with clear instructions.
+
+Required scripts should support:
+- Installing dependencies
+- Starting the frontend development server
+- Starting the backend development server
+- Running both applications together
+- Building the frontend
+- Building the backend
+- Running tests
+- Running linting
+- Running Prisma migrations
+- Seeding the database
+
+Use a root package configuration or a clearly documented workspace setup.
+
+For production, configure the Node.js/Express server to serve the built frontend and API from a single deployment when appropriate.
+
+Ensure:
+- React Router page refreshes work correctly.
+- API routes are not intercepted by the frontend fallback.
+- Static assets are served correctly.
+- Production environment variables are documented.
+- Database migrations run through a controlled deployment process.
+
+Provide deployment guidance for a Node.js-compatible hosting service and a managed PostgreSQL database.
+
+Do not claim deployment has been completed unless it actually has been performed.
+
+---
+
+## 16. TESTING AND QUALITY ASSURANCE
+
+Create meaningful automated tests.
+
+Test:
+- Registration and login
+- Invalid credentials
+- Duplicate email handling
+- Protected routes
+- Role-based authorization
+- Destination listing and filtering
+- Destination detail endpoints
+- Hotel and guide search
+- Preference saving
+- Recommendation filtering
+- Favorite creation and removal
+- Trip creation and itinerary updates
+- Review validation and moderation
+- Inquiry submission
+- Unauthorized access to other users' resources
+- Invalid API input
+- Missing database records
+- Error handling
+
+Run the tests and fix failures.
+
+Do not claim that tests pass unless they have actually been executed successfully.
+
+Also verify:
+- No broken internal links
+- No nonfunctional buttons
+- No missing environment variables
+- No frontend console errors
+- No unhandled backend errors
+- No critical TypeScript errors
+- No database schema mismatches
+
+---
+
+## 17. README AND DOCUMENTATION
+
+Create a complete README containing:
+
+1. Project overview
+2. Key features
+3. Technology stack
+4. Prerequisites
+5. Project folder structure
+6. Installation instructions
+7. PostgreSQL setup
+8. Environment configuration
+9. Database migration instructions
+10. Database seeding instructions
+11. How to run frontend and backend
+12. How to run tests
+13. API documentation location
+14. Production build instructions
+15. Deployment instructions
+16. Security notes
+17. Known limitations
+18. Future enhancements
+
+Include exact commands appropriate to the generated project.
+
+Ensure a developer can clone the project, configure the database, run migrations, seed data, and start the application by following the README.
+
+---
+
+## 18. IMPLEMENTATION PROCESS
+
+Build the application in these phases.
+
+### Phase 1: Project setup
+- Create the frontend and backend structure.
+- Configure TypeScript, Vite, Express, Tailwind CSS, and development scripts.
+- Establish the design tokens and reusable layout components.
+
+### Phase 2: Database and backend
+- Create the Prisma schema.
+- Configure PostgreSQL.
+- Add migrations and seed scripts.
+- Implement validation, authentication, authorization, and error handling.
+- Implement REST APIs.
+- Configure Swagger documentation.
+
+### Phase 3: Main frontend
+- Build the navbar, footer, home page, destination listings, and detail pages.
+- Connect the frontend to real backend endpoints.
+- Add search, filters, loading states, and error handling.
+
+### Phase 4: User features
+- Implement registration and login.
+- Implement travel preferences.
+- Implement favorites.
+- Implement personalized recommendations.
+- Implement the trip planner.
+- Implement reviews and inquiries.
+
+### Phase 5: Map and administration
+- Implement Leaflet and OpenStreetMap.
+- Add destination and attraction markers.
+- Build the admin dashboard.
+- Add administrative CRUD operations and review moderation.
+
+### Phase 6: Testing and completion
+- Run database migrations.
+- Seed the database.
+- Run automated tests.
+- Fix bugs and TypeScript errors.
+- Verify responsive layouts.
+- Check all main user journeys.
+- Complete the README.
+- Confirm that the project builds successfully.
+
+Do not stop after generating the project structure or a few example components. Continue until the application is implemented and the required verification steps have been performed, subject to the available execution environment.
+
+---
+
+## 19. FINAL ACCEPTANCE CRITERIA
+
+The project is complete only when:
+
+1. The frontend runs successfully.
+2. The backend starts successfully.
+3. PostgreSQL stores persistent application data.
+4. Prisma migrations work.
+5. Seed data can be loaded successfully.
+6. Registration and login work.
+7. Protected routes and backend authorization work.
+8. The homepage displays destinations, attractions, hotels, and guides.
+9. Search and filters work with database-backed data.
+10. Destination and attraction detail pages work.
+11. The interactive map displays relevant markers.
+12. Travel preferences can be saved.
+13. Recommendations use the saved preferences.
+14. Favorites persist across sessions.
+15. Trips and itinerary items can be managed.
+16. Reviews and inquiries are validated and stored.
+17. Admin CRUD operations work with proper authorization.
+18. The beige, dark-grey, and white design system is applied consistently.
+19. The application is responsive and accessible.
+20. Errors, loading states, and empty states are handled.
+21. API documentation is available at `/api/docs`.
+22. Tests are implemented and their actual results are documented.
+23. The production build completes successfully.
+24. The README provides reproducible setup instructions.
+
+---
+
+## 20. FINAL INSTRUCTION TO THE AI DEVELOPER
+
+Before coding, inspect the project files and identify what already exists. Preserve working features and avoid replacing valid code unnecessarily.
+
+Then implement the complete EasyWay application using the specified stack and design system.
+
+Prioritize functional correctness, secure architecture, persistent PostgreSQL data, clean TypeScript code, responsive UI, and a professional travel experience.
+
+Do not:
+- Build only a static mockup.
+- Use hardcoded arrays as a replacement for the database.
+- Create fake API success responses.
+- Leave important buttons nonfunctional.
+- Expose credentials or secrets.
+- Invent live hotel availability or confirmed bookings.
+- Claim unimplemented features are complete.
+- Skip database migrations, validation, or authorization.
+- Hide errors instead of fixing them.
+
+If an external service requires credentials, document the setup and provide a graceful fallback where appropriate.
+
+**Deliver the complete source code, database schema and migrations, seed data, automated tests, environment template, API documentation, and README. At the end, provide a concise implementation summary, setup commands, test results, and a list of any features that remain incomplete.**

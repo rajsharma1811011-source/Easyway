@@ -1,0 +1,6 @@
+{
+  "name": "EasyWay — Discover India Your Way",
+  "description": "Discover incredible Indian destinations, explore attractions, find hotels and trusted guides, plan itineraries, and travel your way.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

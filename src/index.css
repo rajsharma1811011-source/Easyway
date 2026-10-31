@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  --color-beige: #DDD0C8;
+  --color-dark-grey: #323232;
+  --color-white: #FFFFFF;
+
+  --background-primary: #FFFFFF;
+  --background-secondary: #DDD0C8;
+  --background-dark: #323232;
+
+  --text-primary: #323232;
+  --text-secondary: #555555;
+  --text-inverse: #FFFFFF;
+
+  --button-primary: #323232;
+  --button-primary-text: #FFFFFF;
+
+  --border-default: #D5CBC5;
+  --surface-card: #FFFFFF;
+
+  --radius-card: 16px;
+  --radius-button: 10px;
+
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--background-primary);
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Custom EasyWay color utility classes */
+.bg-beige {
+  background-color: var(--color-beige);
+}
+
+.bg-dark-grey {
+  background-color: var(--color-dark-grey);
+}
+
+.text-dark-grey {
+  color: var(--color-dark-grey);
+}
+
+.text-beige {
+  color: #B5A296;
+}
+
+.border-beige-subtle {
+  border-color: #E6DDD7;
+}
+
+.border-default {
+  border-color: var(--border-default);
+}
+
+/* Leaflet Map overrides */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  z-index: 10;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+  padding: 4px;
+  box-shadow: 0 10px 25px -5px rgba(50, 50, 50, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+  line-height: 1.5;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F4EFEB;
+}
+::-webkit-scrollbar-thumb {
+  background: #DDD0C8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C4B3A8;
+}
